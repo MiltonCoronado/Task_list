@@ -6,6 +6,7 @@ interface TodoId {
   id: number;
 }
 
+//FC<TodoId> otra forma de desestructurar props.
 const TodoButton = ({ id }: TodoId) => {
   const { deleteTodo } = useTodos();
 
