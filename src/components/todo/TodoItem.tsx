@@ -3,6 +3,7 @@ import { useTodos } from '../../hooks/useTodos';
 import { TodoButton } from './TodoButton';
 
 const TodoItems = () => {
+  //patron SINGLETON
   const { todos, toggleTodo } = useTodos();
 
   return (
