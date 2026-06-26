@@ -7,24 +7,28 @@ interface Todo {
 }
 
 //store Singleton
-let todos: Todo[] = [];
+let todos: Todo[] = JSON.parse(localStorage.getItem('todos') ?? '[]');
 let inputValue: string = '';
 
-//suscription system to send components masagge
+//suscription system
 const listeners = new Set<() => void>();
-const notifyListeners = () => listeners.forEach((listener) => listener());
+const notifyListeners = () => listeners.forEach((item) => item());
 
 const useTodos = () => {
-  const [, setRerender] = useState(0);
+  const [, setForceRerender] = useState(0);
 
   useEffect(() => {
-    const listener = () => setRerender((value) => value + 1);
+    const listener = () => setForceRerender((value) => value + 1);
     listeners.add(listener);
 
     return () => {
       listeners.delete(listener);
     };
   }, []);
+
+  const savedStorage = (todos: Todo[]) => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  };
 
   const setInputValue = (value: string) => {
     inputValue = value;
@@ -42,6 +46,7 @@ const useTodos = () => {
 
     todos = [...todos, newTodo];
     inputValue = '';
+    savedStorage(todos);
     notifyListeners();
   };
 
@@ -49,11 +54,13 @@ const useTodos = () => {
     todos = todos.map((todo) =>
       todo.id === id ? { ...todo, completed: !todo.completed } : todo,
     );
+    savedStorage(todos);
     notifyListeners();
   };
 
   const deleteTodo = (id: number) => {
     todos = todos.filter((todo) => todo.id !== id);
+    savedStorage(todos);
     notifyListeners();
   };
 
@@ -80,4 +87,3 @@ const useTodos = () => {
 };
 
 export { useTodos };
-export type { Todo };
