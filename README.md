@@ -24,11 +24,9 @@ State is updated through explicit functions (addTodo, toggleTodo, deleteTodo, et
 
 This is a deliberate departure from React’s immutable state philosophy, chosen to solve the synchronization problem in a simple, direct way.
 
-## API Documentation
-
 ## Properties
 
-## todos
+### todos
 
 todos: Todo[]  
 The global list of todos, shared across all components.
